@@ -17,13 +17,7 @@ class MoviesController < ApplicationController
   end
   # route: # GET    /movies/:id(.:format)
   def show
-    @movie = @@movie_db.find do |m|
-      m["imdbID"] == params[:id]
-    end
-    if @movie.nil?
-      flash.now[:message] = "Movie not found" if @movie.nil?
-      @movie = {}
-    end
+   @movie = get_movie params[:id]
   end
 
   # route: GET    /movies/new(.:format)
@@ -32,14 +26,7 @@ class MoviesController < ApplicationController
 
   # route: GET    /movies/:id/edit(.:format)
   def edit
-    @movie = @@movie_db.find do |m|
-      m["imdbID"] == params[:id]
-    end
-
-    if @movie.nil?
-      flash.now[:message] = "Movie not found" if @movie.nil?
-      @movie = {}
-    end
+  @movie = get_movie params[:id]
   end
 
   #route: # POST   /movies(.:format)
@@ -63,5 +50,36 @@ class MoviesController < ApplicationController
   def destroy
     #implement
   end
+  private
 
+  def get_movie movie_id
+    the_movie = @@movie_db.find do |m|
+      m["imdbID"] == params[:id]
+    end
+
+    if the_movie.nil?
+      flash.now[:message] = "Movie not found"
+      the_movie = {}
+    end
+    the_movie
+  end
+
+end
+
+def update
+  #implement
+  #update object in movies_db
+  # render :show
+  #render shows a page in the same request
+  #redirect to will route and act on any methods associated with that request
+  
+end
+
+
+
+# route: DELETE /movies/:id(.:format)
+def destroy 
+  #implement
+  # delete movie from movie_db
+  #redirect_t :index
 end
