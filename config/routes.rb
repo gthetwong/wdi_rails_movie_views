@@ -1,8 +1,10 @@
 Movies::Application.routes.draw do
 resources :movies
 
-  root 'movies#index'
+  root 'movies#search'
 
+  # get '/results' => "movies#results"
+  post '/results' => "movies#retresults"
   # get 'movies'  => 'movies#index', as: :movies
   # post 'movies' => 'movies#create'
   # get 'movies/new' => 'movies#new', as: :new_movie
