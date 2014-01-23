@@ -24,13 +24,18 @@ class MoviesController < ApplicationController
   end
 
   def results
-
-  end
-
-  def retresults
   search_str = params[:movie]
-  response = Typhoeus.get("www.omdbapi.com", :params => {:s => "#{search_str}"})
-  binding.pry
+  movies = []
+
+  result = Typhoeus.get("http://www.omdbapi.com", :params => {:s => search_str})
+
+  results = JSON.parse(result.body)
+  results["Search"].map do |movie|
+      movies << [movie["Title"], movie["Year"], movie["imdbID"]]
+  end
+                
+  # movies.sort!{|x,y|y[1] <=> x[1]}
+  @results = movies
   end
 
   # route: # GET    /movies/:id(.:format)
@@ -73,10 +78,19 @@ class MoviesController < ApplicationController
   
   end
 
-  # route: DELETE /movies/:id(.:format)
- 
 
-# route: DELETE /movies/:id(.:format)
+  def add_result
+    res = params["movie_data"]
+    res.map! {|x| x.split(";")}
+    res.each do |mov|
+      title = mov[0]
+      year = mov[1]
+      imdbID = mov[2]
+      new_movie = Movie.create(title: title, year: year, imdbID: imdbID)
+    end
+    redirect_to "/movies"
+  end
+
   def destroy
       movie = get_movie [:id]
       movie.destroy

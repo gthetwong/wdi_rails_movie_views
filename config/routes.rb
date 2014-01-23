@@ -4,7 +4,9 @@ resources :movies
   root 'movies#search'
 
   # get '/results' => "movies#results"
-  post '/results' => "movies#retresults"
+  post '/results' => "movies#results"
+
+  post '/add_result/' => "movies#add_result"
   # get 'movies'  => 'movies#index', as: :movies
   # post 'movies' => 'movies#create'
   # get 'movies/new' => 'movies#new', as: :new_movie

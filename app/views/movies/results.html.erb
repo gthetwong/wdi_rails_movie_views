@@ -1,3 +1,16 @@
-<h1>Search results here</h1>
+<div>
 
-<%=@search%>
+<h1> Search results </h1>
+
+<form accept-charset="UTF-8" action="/add_result" method="post">
+<ul class="list-unstyled">
+<input name="post" type="hidden" value="0" />
+<% @results.map do |movie| %>
+<li><input checked="checked" type="checkbox" id="post_validated" name="movie_data[]" value="<%=movie[0]%>; <%=movie[1]%>; <%=movie[2]%>" /> <%= movie[0] %> (<%= movie[1] %>) </li>
+<% end %>
+<input name="commit" type="submit" value="Add to Database" />
+</ul>
+
+</form>
+
+</div>
